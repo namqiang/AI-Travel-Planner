@@ -14,9 +14,9 @@ on:
   workflow_dispatch:
 
 env:
-  # 阿里云镜像仓库配置
-  ALIYUN_REGISTRY: registry.cn-hangzhou.aliyuncs.com
-  ALIYUN_NAMESPACE: namqiang  # 修改为你的命名空间
+  # 阿里云镜像仓库配置（个人实例）
+  ALIYUN_REGISTRY: crpi-uspbv1mtgfy0n9og.cn-hangzhou.personal.cr.aliyuncs.com
+  ALIYUN_NAMESPACE: namqiang
   IMAGE_NAME: ai-travel-planner
 
 jobs:
