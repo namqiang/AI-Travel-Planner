@@ -172,6 +172,9 @@ yarn dev
 
 ```
 AI-Travel-Planner/
+├── .github/             # GitHub Actions 工作流
+│   └── workflows/
+│       └── docker-build.yml  # Docker 镜像构建和推送
 ├── public/              # 静态资源
 ├── src/
 │   ├── components/      # 公共组件
@@ -206,7 +209,12 @@ AI-Travel-Planner/
 │   ├── schema.sql       # 数据库表结构
 │   └── schema_fixed.sql # 可重复执行的数据库脚本
 ├── docs/                # 项目文档
-│   └── AI_MODELS.md     # AI 模型配置指南
+│   ├── AI_MODELS.md     # AI 模型配置指南
+│   └── DOCKER.md        # Docker 部署详细指南
+├── .dockerignore        # Docker 忽略文件
+├── Dockerfile           # Docker 镜像构建文件
+├── docker-compose.yml   # Docker Compose 配置
+├── nginx.conf           # Nginx 服务器配置
 ├── index.html           # HTML 模板
 ├── package.json         # 项目依赖
 ├── tsconfig.json        # TypeScript 配置
@@ -293,6 +301,62 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 ## 部署
+
+### Docker 部署（推荐）
+
+使用 Docker 可以快速部署应用，无需配置 Node.js 环境。
+
+#### 方式一：使用预构建镜像
+
+```bash
+# 从阿里云镜像仓库拉取最新镜像
+docker pull registry.cn-hangzhou.aliyuncs.com/your-namespace/ai-travel-planner:latest
+
+# 运行容器
+docker run -d \
+  --name ai-travel-planner \
+  -p 3000:80 \
+  --restart unless-stopped \
+  registry.cn-hangzhou.aliyuncs.com/your-namespace/ai-travel-planner:latest
+```
+
+访问 `http://localhost:3000` 即可使用应用。
+
+#### 方式二：使用 Docker Compose
+
+```bash
+# 下载 docker-compose.yml 文件
+wget https://raw.githubusercontent.com/your-username/AI-Travel-Planner/main/docker-compose.yml
+
+# 启动服务
+docker-compose up -d
+
+# 查看日志
+docker-compose logs -f
+
+# 停止服务
+docker-compose down
+```
+
+#### 方式三：本地构建镜像
+
+```bash
+# 克隆项目
+git clone https://github.com/your-username/AI-Travel-Planner.git
+cd AI-Travel-Planner
+
+# 构建镜像
+docker build -t ai-travel-planner:latest .
+
+# 运行容器
+docker run -d \
+  --name ai-travel-planner \
+  -p 3000:80 \
+  --restart unless-stopped \
+  ai-travel-planner:latest
+```
+
+**详细文档**: 查看 [Docker 部署指南](docs/DOCKER.md) 了解更多配置选项、生产环境部署、监控和故障排查等内容。
 
 ### Vercel 部署
 
@@ -413,7 +477,24 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ## 版本更新记录
 
-### v1.1.0 (最新)
+### v1.2.0 (最新)
+
+**新增功能**:
+- ✨ Docker 支持：提供完整的 Docker 部署方案
+- ✨ GitHub Actions 自动构建：推送代码自动构建并发布到阿里云镜像仓库
+- ✨ 多架构支持：支持 linux/amd64 和 linux/arm64
+- ✨ Docker Compose 配置：一键启动完整应用
+- ✨ Nginx 优化：Gzip 压缩、静态资源缓存、安全头部
+- ✨ 健康检查：容器内置健康检查机制
+- ✨ Docker 部署文档：详细的部署、配置和故障排查指南
+
+**优化改进**:
+- 🔧 多阶段构建优化镜像大小
+- 🔧 使用 Alpine Linux 减小镜像体积
+- 🔧 配置镜像缓存加速构建
+- 🔧 自动生成多个版本标签
+
+### v1.1.0
 
 **新增功能**:
 - ✨ 支持多种 AI 模型（OpenAI、DeepSeek、Qwen、Kimi）
