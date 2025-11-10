@@ -14,6 +14,10 @@ RUN npm ci && npm cache clean --force
 # 复制源代码
 COPY . .
 
+# 设置构建时的环境变量（使用 .env.example 中的值）
+ENV VITE_SUPABASE_URL=https://vtojiucxfqibzhptoshu.supabase.co
+ENV VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0b2ppdWN4ZnFpYnpocHRvc2h1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3MDA4MjQsImV4cCI6MjA3ODI3NjgyNH0.qaV1nnD6FDczz6g58yjP3FPpcXBTtz0kV3ApPfPJQUU
+
 # 构建应用
 RUN npm run build
 
